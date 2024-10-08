@@ -265,19 +265,20 @@ class SnakeGameAI:
 
 # Helper Functions
 def plot(scores, mean_scores):
-    display.clear_output(wait=True)
-    display.display(plt.gcf())
-    plt.clf()
+    plt.clf()  # Clear the current figure
     plt.title('Training...')
     plt.xlabel('Number of Games')
     plt.ylabel('Score')
-    plt.plot(scores)
-    plt.plot(mean_scores)
+    plt.plot(scores, label='Score')
+    plt.plot(mean_scores, label='Mean Score')
     plt.ylim(ymin=0)
-    plt.text(len(scores) - 1, scores[-1], str(scores[-1]))
-    plt.text(len(mean_scores) - 1, mean_scores[-1], str(mean_scores[-1]))
-    plt.show(block=False)
-    plt.pause(.1)
+    plt.text(len(scores) - 1, scores[-1], str(scores[-1]), fontsize=12)
+    plt.text(len(mean_scores) - 1, mean_scores[-1], str(mean_scores[-1]), fontsize=12)
+    plt.legend()
+    plt.draw()  # Update the figure
+    plt.pause(0.1)  # Pause for a short interval to allow for display update
+
+
 
 # Training function
 def train():
@@ -306,8 +307,11 @@ def train():
             if agent.n_games > 0:
                 mean_score = total_score / agent.n_games
                 mean_scores.append(mean_score)
-                
+
+            # Print number of games and scores
+            print(f'Game: {agent.n_games}, Score: {score}, Mean Score: {mean_score:.2f}')
             plot(scores, mean_scores)
 
 if __name__ == "__main__":
     train()
+
